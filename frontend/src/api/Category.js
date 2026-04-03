@@ -1,7 +1,6 @@
 import { instance } from "@/helper/helper";
 
-
-export async function GetCategories() {
+async function GetCategories() {
   try {
     const res = await instance.get("category");
     return res.data;
@@ -10,3 +9,15 @@ export async function GetCategories() {
     return [];
   }
 }
+async function GetCategoriesById(id) {
+  try {
+    const res = await instance.get(`category/${id}`);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
+}
+
+
+export { GetCategories, GetCategoriesById }

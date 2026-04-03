@@ -20,13 +20,13 @@ export default function AddCategoryForm() {
 
     function submithandler(event) {
         event.preventDefault()
+        const payload = new FormData()
+        payload.append("name",nameRef.current.value)
+        payload.append("slug",slugRef.current.value)
+        payload.append("image",event.target.image.files[0])
 
-        const data = {
-            name: nameRef.current.value,
-            slug: slugRef.current.value
-        }
 
-        instance.post("category/create", data)
+        instance.post("category/create", payload)
             .then((res) => {
                 if (res.data.success) {
                     notify(res?.data?.message, true)
@@ -89,6 +89,8 @@ export default function AddCategoryForm() {
                         </label>
                         <input
                             type="file"
+                            accept="image/"
+                            name="image"
                             className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white"
                         />
                     </div>

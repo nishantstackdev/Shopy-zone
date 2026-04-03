@@ -34,11 +34,11 @@ const BestSellerRow = () => {
 
     return (
         <div>
-            <h3 className="font-bold mb-4">
+            <h3 className="font-bold mb-4 px-2 lg:px-0">
                 BEST SELLER IN THIS CATEGORY
             </h3>
 
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 mx-2 lg:mx-0 gap-3 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {products.map((product) => (
                     <ProductCard key={product.id} category={product.category} title={product.title} price={product.price} oldPrice={product.oldPrice} image={product.image} />
                 ))}

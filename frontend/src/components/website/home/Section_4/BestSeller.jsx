@@ -83,7 +83,7 @@ export default function BestSeller() {
             {/* Header */}
             <div className="bg-black text-white flex justify-between px-4 py-3 items-center">
                 <button onClick={prevSlide}>⬅️</button>
-                <h2 className="font-semibold">Best Sellers</h2>
+                <h2 className="font-semibold">New Arrivals</h2>
                 <button onClick={nextSlide}>➡️</button>
             </div>
 

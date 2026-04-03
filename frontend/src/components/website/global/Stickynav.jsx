@@ -18,7 +18,7 @@ export default function Stickynav({ isMenuOpen }) {
 
     return (
         <nav
-  className={` border-slate-200 shadow
+  className={`bg-white shadow
     sticky top-0 z-50
     ${isMenuOpen ? "block" : "hidden md:block"}
   `}

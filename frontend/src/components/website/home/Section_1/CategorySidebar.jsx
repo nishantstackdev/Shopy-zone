@@ -42,7 +42,7 @@ export default function CategorySidebar({ categories }) {
   ];
 
   return (
-    <aside className="w-full max-w-[300px] bg-white shadow-sm border border-gray-100 py-2">
+    <aside className="w-full max-w-[300px] hidden md:block bg-white shadow-sm border border-gray-100 py-2">
       <ul className="flex flex-col">
         {displayCategories.map((cat, index) => (
           <li

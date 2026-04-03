@@ -50,7 +50,7 @@ const Header = () => {
         </div>
 
         {/* Main Header */}
-        <div className=" py-5 px-4 md:px-8">
+        <div className="py-2 px-4 md:px-8">
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-6">
 
             <h1 className="text-3xl font-black">

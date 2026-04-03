@@ -11,6 +11,7 @@ import { IoColorPaletteOutline } from "react-icons/io5";
 import Link from "next/link";
 import { usePathname } from 'next/navigation';
 import { FaBars } from "react-icons/fa";
+import { SiBrandfetch } from "react-icons/si";
 
 export default function Sidebar() {
 
@@ -27,6 +28,11 @@ export default function Sidebar() {
       name: "Product Categories",
       icon: MdOutlineCategory,
       link: "/admin/category"
+    },
+    {
+      name: "Brand",
+      icon: SiBrandfetch,
+      link: "/admin/brand"
     },
     {
       name: "Products",

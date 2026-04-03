@@ -31,7 +31,7 @@ export default function Mobilebanner() {
         return () => clearInterval(interval)
     }, [isMobileOrTablet])
     return (
-        <div className="hidden md:block lg:hidden relative h-[550px] overflow-hidden rounded-xl">
+        <div className="block mt-0 md:mt-0 lg:hidden relative h-[550px] overflow-hidden rounded-xl">
 
             <img
                 src={sellerSlides[activeIndex]}

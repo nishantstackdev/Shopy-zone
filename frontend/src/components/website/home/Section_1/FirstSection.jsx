@@ -27,7 +27,7 @@ export default function FirstSection() {
                     <CategorySidebar categories={categories} />
 
                     {/* Mobile banner */}
-                    <div className="md:block lg:hidden col-span-1">
+                    <div className="block lg:hidden col-span-1">
                         <Mobilebanner />
                     </div>
 
