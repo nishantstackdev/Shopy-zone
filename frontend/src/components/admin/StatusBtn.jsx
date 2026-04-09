@@ -2,10 +2,10 @@
 import { instance, notify } from "@/helper/helper"
 import { useRouter } from "next/navigation"
 
-function StatusBtn({ value, id, field }) {
+function StatusBtn({ value, id, field, endpoint }) {
     const router = useRouter()
     function statusHandler() {
-        instance.patch(`category/update/${id}`, { field })
+        instance.patch(`${endpoint}/update/${id}`, { field })
             .then((res) => {
                 if (res.data.success) {
                     notify(res?.data?.message, true)
@@ -14,6 +14,7 @@ function StatusBtn({ value, id, field }) {
                 // console.log(res)
             })
             .catch((err) => {
+                console.log(err)
                 const message =
                     err?.response?.data?.message ||
                     err?.message ||

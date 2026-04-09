@@ -1,12 +1,12 @@
 'use client'
 import React from 'react'
 import axios from "axios"
-import { notify } from "@/helper/helper"
+import { instance, notify } from "@/helper/helper"
 import { useRouter } from "next/navigation"
 import { Trash2 } from "lucide-react";
 import Swal from 'sweetalert2'
 
-export default function DeleteBtn({ id }) {
+export default function DeleteBtn({url}) {
     const router = useRouter()
 
     function deleteHandler() {
@@ -31,9 +31,7 @@ export default function DeleteBtn({ id }) {
 
             if (result.isConfirmed) {
 
-                axios.delete(`http://localhost:8000/category/delete/${id}`, {
-                    data: { field: "status" }
-                })
+                instance.delete(url)
                 .then((res) => {
                     if (res.data.success) {
 

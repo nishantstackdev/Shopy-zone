@@ -80,10 +80,10 @@ export default async function CategoryTable() {
 
                     {/* Status */}
                     <td className="py-4 px-4 space-x-2">
-                      <StatusBtn value={cat.status} id={cat._id} field="status" />
-                      <StatusBtn value={cat.is_top} id={cat._id} field="is_top" />
-                      <StatusBtn value={cat.is_home} id={cat._id} field="is_home" />
-                      <StatusBtn value={cat.is_popular} id={cat._id} field="is_popular" />
+                      <StatusBtn value={cat.status} id={cat._id} field="status" endpoint="category" />
+                      <StatusBtn value={cat.is_top} id={cat._id} field="is_top" endpoint="category" />
+                      <StatusBtn value={cat.is_home} id={cat._id} field="is_home" endpoint="category" />
+                      <StatusBtn value={cat.is_popular} id={cat._id} field="is_popular" endpoint="category" />
                     </td>
 
                     {/* Actions */}
@@ -100,7 +100,7 @@ export default async function CategoryTable() {
 
                         
 
-                        <DeleteBtn id={cat._id} />
+                        <DeleteBtn url={`http://localhost:8000/category/delete/${cat._id}`} />
 
                       </div>
                     </td>

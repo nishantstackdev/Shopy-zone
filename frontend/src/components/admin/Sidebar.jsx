@@ -42,7 +42,7 @@ export default function Sidebar() {
     {
       name: "Product Colors",
       icon: IoColorPaletteOutline,
-      link: "/admin/colors"
+      link: "/admin/color"
     },
     {
       name: "Users",
