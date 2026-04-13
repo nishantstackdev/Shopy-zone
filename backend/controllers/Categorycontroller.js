@@ -52,7 +52,21 @@ const createcategory = async (req, res) => {
 
 const getcategory = async (req, res) => {
     try {
-        const allcategories = await categorymodel.find()
+        const query = req.query
+        const filter = {}
+        const limit = query.limit ? parseInt(query.limit) : 0
+        if(query.id) filter._id = query.id
+        if(query.status){
+            filter.status = query.status==="true"
+        }
+        if(query.is_top){
+            filter.is_top = query.is_top==="true"
+        }
+        if(query.is_popular){
+            filter.is_popular = query.is_popular==="true"
+        }
+        // console.log(filter)
+        const allcategories = await categorymodel.find(filter).limit(limit)
         res.status(201).json({
             message: "Data found",
             success: true,

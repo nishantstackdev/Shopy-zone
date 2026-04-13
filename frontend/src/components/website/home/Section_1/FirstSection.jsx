@@ -5,18 +5,7 @@ import Mobilebanner from './Mobilebanner'
 
 export default function FirstSection() {
 
-    const categories = [
-        { name: 'Smartphone & Tablet', hasSub: true },
-        { name: 'Electronics', hasSub: true },
-        { name: 'Fashion', hasSub: true },
-        { name: 'Furniture & Decor', hasSub: false },
-        { name: 'Jewelry & Accessories', hasSub: false },
-        { name: 'Health & Beauty', hasSub: true },
-        { name: 'Mom & Baby', hasSub: false },
-        { name: 'Game & Console', hasSub: false },
-        { name: 'Cars & Motorbikes', hasSub: false },
-        { name: 'Sport & Outdoor', hasSub: false },
-    ]
+    
 
     return (
         <section className="w-full bg-slate-50 py-5">
@@ -24,7 +13,7 @@ export default function FirstSection() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
                     {/* Sidebar */}
-                    <CategorySidebar categories={categories} />
+                    <CategorySidebar />
 
                     {/* Mobile banner */}
                     <div className="block lg:hidden col-span-1">

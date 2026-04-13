@@ -37,7 +37,7 @@ export default function Sidebar() {
     {
       name: "Products",
       icon: FaProductHunt,
-      link: "/admin/products"
+      link: "/admin/product"
     },
     {
       name: "Product Colors",

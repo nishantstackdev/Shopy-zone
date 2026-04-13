@@ -1,5 +1,5 @@
 "use client";
-import { axiosinstance, notify, slugCreate } from "@/helper/helper";
+import { instance, notify, slugCreate } from "@/helper/helper";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
@@ -33,7 +33,7 @@ export default function CategoryForm() {
         hex_code: hexRef.current.value
     };
 
-    axiosinstance
+    instance
         .post("/color/create", payload)
         .then((res) => {
             if (res.data.success) {
@@ -44,6 +44,7 @@ export default function CategoryForm() {
             }
         })
         .catch((err) => {
+            console.log(err)
             const message =
                 err?.response?.data?.message ||
                 err?.message ||

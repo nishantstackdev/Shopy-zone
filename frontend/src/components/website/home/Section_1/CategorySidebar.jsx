@@ -1,66 +1,69 @@
+import { GetCategories } from '@/api/Category';
 import React from 'react';
-import { 
-  LuSmartphone, 
-  LuMonitor, 
-  LuShirt, 
-  LuArmchair, 
-  LuGem, 
-  LuBrush, 
-  LuBaby, 
-  LuGamepad2, 
-  LuCar, 
+import {
+  LuSmartphone,
+  LuMonitor,
+  LuShirt,
+  LuArmchair,
+  LuGem,
+  LuBrush,
+  LuBaby,
+  LuGamepad2,
+  LuCar,
   LuDribbble,
-  LuChevronRight 
+  LuChevronRight
 } from "react-icons/lu";
 
-const categoryIcons = {
-  'Smartphone & Tablet': <LuSmartphone size={20} />,
-  'Electronics': <LuMonitor size={20} />,
-  'Fashion': <LuShirt size={20} />,
-  'Furniture & Decor': <LuArmchair size={20} />,
-  'Jewelry & Accessories': <LuGem size={20} />,
-  'Health & Beauty': <LuBrush size={20} />,
-  'Mom & Baby': <LuBaby size={20} />,
-  'Game & Console': <LuGamepad2 size={20} />,
-  'Cars & Motorbikes': <LuCar size={20} />,
-  'Sport & Outdoor': <LuDribbble size={20} />
-};
 
-export default function CategorySidebar({ categories }) {
-  // If categories aren't passed, here is the list based on your image
-  const displayCategories = categories || [
-    { name: 'Smartphone & Tablet', hasSub: true },
-    { name: 'Electronics', hasSub: true },
-    { name: 'Fashion', hasSub: true },
-    { name: 'Furniture & Decor', hasSub: false },
-    { name: 'Jewelry & Accessories', hasSub: false },
-    { name: 'Health & Beauty', hasSub: true },
-    { name: 'Mom & Baby', hasSub: false },
-    { name: 'Game & Console', hasSub: false },
-    { name: 'Cars & Motorbikes', hasSub: false },
-    { name: 'Sport & Outdoor', hasSub: false },
-  ];
+
+export default async function CategorySidebar() {
+
+  const categories = await GetCategories({ limit: 6, status: true, is_top: true })
+  const displayCategories = categories.allcategories
 
   return (
-    <aside className="w-full max-w-[300px] hidden md:block bg-white shadow-sm border border-gray-100 py-2">
+    <aside className="w-full max-w-[300px] hidden md:block bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
+      
+      {/* Header */}
+      <div className="px-6 py-4 border-b bg-gray-50">
+        <h2 className="text-lg font-semibold text-gray-800">
+          Categories
+        </h2>
+      </div>
+
+      {/* List */}
       <ul className="flex flex-col">
         {displayCategories.map((cat, index) => (
           <li
             key={index}
-            className="flex items-center justify-between px-6 py-4 hover:bg-gray-50 transition-colors cursor-pointer group"
+            className="group flex items-center justify-between px-5 py-3 hover:bg-gray-50 transition-all duration-200 cursor-pointer"
           >
-            <div className="flex items-center gap-4">
-              <span className="text-gray-400 group-hover:text-red-500 transition-colors">
-                {categoryIcons[cat.name] || <LuMonitor size={20} />}
-              </span>
-              <span className="text-[15px] font-medium text-gray-800">
+            {/* Left Section */}
+            <div className="flex items-center gap-3">
+
+              {/* Icon / Image */}
+              <div className="w-10 h-10 flex items-center justify-center rounded-lg bg-gray-100 overflow-hidden">
+                
+                  <img
+                    src={process.env.NEXT_PUBLIC_CATEGORY_IMAGE + cat.image}
+                    alt={cat.name}
+                    className="w-6 h-6 object-contain"
+                  />
+                
+              </div>
+
+              {/* Name */}
+              <span className="text-sm font-medium text-gray-700 group-hover:text-red-500 transition">
                 {cat.name}
               </span>
             </div>
 
-            {/* Only show chevron if it has subcategories (matching your image) */}
+            {/* Chevron */}
             {cat.hasSub && (
-              <LuChevronRight size={18} className="text-gray-400 group-hover:text-red-500" />
+              <LuChevronRight
+                size={18}
+                className="text-gray-400 group-hover:text-red-500 transition-transform duration-200 group-hover:translate-x-1"
+              />
             )}
           </li>
         ))}
