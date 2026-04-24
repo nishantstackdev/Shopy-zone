@@ -39,7 +39,7 @@ export default function HeroImage() {
 
   return (
     <div className="w-full px-4 md:px-0">
-      <div className="relative w-full h-[450px] md:h-[500px] rounded-2xl overflow-hidden group">
+      <div className="relative w-full h-[450px] md:h-[600px] rounded-2xl overflow-hidden group">
         
         {/* Slides Logic */}
         {slides.map((slide, index) => (

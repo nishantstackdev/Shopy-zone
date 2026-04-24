@@ -2,12 +2,7 @@ import { FaFilter } from "react-icons/fa";
 const ProductsToolbar = ({setOpenFilter}) => {
     return (
         <div className="flex flex-wrap px-2 justify-between items-center my-3 text-sm text-gray-600">
-            <button
-            className="lg:hidden flex items-center gap-2 border px-3 py-2 rounded"
-            onClick={()=>setOpenFilter(true)}
-            >
-                <FaFilter className="cursor-pointer" />
-            </button>
+            <FaFilter className="cursor-pointer" />
             <p>1–40 of 120 results</p>
 
             <div className="flex gap-4">

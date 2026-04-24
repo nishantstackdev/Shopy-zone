@@ -1,103 +1,102 @@
 'use client';
 
-import React, { useState } from "react";
-import {
-  Search,
-  User,
-  Heart,
-  ShoppingCart,
-  ChevronDown,
-  Menu,
-  X
-} from "lucide-react";
-
+import React, { useEffect } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Stickynav from "./Stickynav";
+import { Search, User, Heart, ShoppingCart } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { lstocart } from "@/redux/features/cartSlice";
 
-const Header = () => {
+export default function Stickynav({ isMenuOpen }) {
+  const cart = useSelector((store)=>store.cart);
+  // console.log(cart)
+  const dispatcher = useDispatch()
+  const pathname = usePathname();
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
- 
+  useEffect(
+    ()=>{
+      dispatcher(lstocart())
+    },
+    []
+  )
+
+  const navItems = [
+    { name: "Home", path: "/" },
+    { name: "Shop", path: "/products" },
+    { name: "Orders", path: "/orders" },
+    { name: "Best Selling", path: "/best-selling" },
+    { name: "Trending", path: "/trending" },
+    { name: "About Us", path: "/about" },
+    { name: "Cart", path: "/cart" }
+  ];
 
   return (
-    <>
-      <header className="w-full border-b bg-white border-slate-200  font-sans">
+    <nav
+      className={`bg-white shadow sticky top-0 z-50 ${isMenuOpen ? "block" : "hidden md:block"
+        }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
+ 
+        {/* LEFT NAV */}
+        <ul className="hidden md:flex gap-6 uppercase text-sm font-medium">
+          {navItems.map((item) => {
+            const isActive = pathname === item.path;
 
-        {/* Top Bar */}
-        <div className=" py-2 px-4 md:px-8  border-slate-200 border-b flex flex-col md:flex-row justify-between items-center text-xs md:text-sm">
-          <div className="text-black ">
-            Order by phone:
-            <span className=" ml-1">(84) 943 446 000</span> |
-            <span className="ml-1 ">
-              Shop our Spring Bounty Sale
+            return (
+              <li key={item.path}>
+                <Link
+                  href={item.path}
+                  className={`transition ${isActive ? "text-black font-semibold" : "hover:text-black"
+                    }`}
+                >
+                  {item.name}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+
+        {/* CENTER LOGO */}
+        <div className="flex justify-center flex-1 md:flex-none">
+          <img
+            src="/images/logo.jpg"
+            alt="Logo"
+            className="h-10 md:h-12 w-auto object-contain"
+          />
+        </div>
+
+        {/* RIGHT SECTION */}
+        <div className="flex items-center gap-4">
+
+          {/* SEARCH */}
+          <div className="hidden md:flex items-center border rounded-full px-3 py-1 text-sm">
+            <Search size={16} className="mr-2 text-gray-500" />
+            <input
+              type="text"
+              placeholder="I'm looking for..."
+              className="outline-none w-40"
+            />
+          </div>
+
+          {/* ICONS */}
+          <User className="cursor-pointer" size={20} />
+          <div className="relative cursor-pointer">
+            <Heart size={20} />
+            <span className="absolute -top-2 -right-2 text-xs bg-red-500 text-white rounded-full px-1">
+              0
             </span>
           </div>
-
-          <div className="flex gap-4">
-            <button className="flex items-center gap-1 hover:text-red-500">
-              <img
-                src="https://flagcdn.com/w20/gb.png"
-                alt="English"
-                className="w-4 h-3"
-              />
-              English <ChevronDown size={14} />
-            </button>
-
-            <button className="flex items-center gap-1 hover:text-red-500">
-              $ USD <ChevronDown size={14} />
-            </button>
-          </div>
-        </div>
-
-        {/* Main Header */}
-        <div className="py-2 px-4 md:px-8">
-          <div className="max-w-7xl mx-auto flex items-center justify-between gap-6">
-
-            <h1 className="text-3xl font-black">
-              ENTRY<span className="text-red-500">▲</span>
-            </h1>
-
-            <div className="hidden md:flex flex-grow max-w-2xl bg-white rounded-md overflow-hidden">
-              <input
-                type="text"
-                placeholder="Search products..."
-                className="flex-grow px-4 py-2 border rounded text-gray-800 outline-none"
-              />
-              <button className="bg-[#ff3b5c] px-4">
-                <Search size={20} />
-              </button>
+          <Link href={"/cart"}>
+            <div className="relative cursor-pointer">
+              <ShoppingCart size={20} />
+              <span className="absolute -top-2 -right-2 text-xs bg-red-500 text-white rounded-full px-1">
+                {cart?.items?.length || 0}
+              </span>
             </div>
+          </Link>
 
-            <div className="flex items-center gap-5">
-
-              <div className="hidden lg:flex items-center gap-2 hover:text-red-500">
-                <User size={22} />
-                <span className="text-sm">Account</span>
-              </div>
-
-              <div className="relative">
-                <Heart size={22} />
-              </div>
-
-              <div className="relative">
-                <ShoppingCart size={22} />
-              </div>
-
-              <button
-                className="md:hidden"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-              >
-                {isMenuOpen ? <X size={26} /> : <Menu size={26} />}
-              </button>
-
-            </div>
-          </div>
         </div>
-        </header>
-      <Stickynav isMenuOpen={isMenuOpen} />
-    </>
-
+      </div>
+    </nav>
   );
-};
-
-export default Header;
+}

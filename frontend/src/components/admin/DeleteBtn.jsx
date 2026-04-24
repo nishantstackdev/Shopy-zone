@@ -46,6 +46,7 @@ export default function DeleteBtn({url}) {
                     }
                 })
                 .catch((err) => {
+                    console.log(err)
                     const message =
                         err?.response?.data?.message ||
                         err?.message ||

@@ -3,6 +3,7 @@ const ProductModel = require("../models/Productmodel")
 const BrandModel = require("../models/Brandmodel")
 const { uniqueName } = require("../utils/helper")
 const fs = require("fs")
+const ColorModel = require("../models/Colormodel")
 
 const createproduct = async (req, res) => {
     try {
@@ -73,13 +74,18 @@ const getProduct = async (req, res) => {
 
         const query = req.query
         const filter = {}
-
         const page = parseInt(query.page) || 1
-        const limit = parseInt(query.limit) || 10
+        const limit = parseInt(query.limit) || 30
         const skip = (page - 1) * limit
 
         if (query.status)
             filter.status = query.status === "true"
+
+        if (query.is_home)
+            filter.is_home = query.is_home === "true"
+
+        if (query.is_popular)
+            filter.is_popular = query.is_popular === "true"
 
         if (query.stock)
             filter.stock = query.stock === "true"
@@ -90,7 +96,7 @@ const getProduct = async (req, res) => {
         if (query.category_slug) {
 
             const category = await categorymodel.findOne({
-                slug: query.category_slug
+                slug: decodeURIComponent(query.category_slug)
             })
 
             if (category) {
@@ -107,8 +113,18 @@ const getProduct = async (req, res) => {
                 filter.brand_Id = brand._id
             }
         }
+        if (query.color_slug) {
 
-        // console.log("filter:", filter)
+            const color = await ColorModel.findOne({
+                slug: query.color_slug
+            })
+
+            if (color) {
+                filter.color_ids = color_ids._id
+            }
+        }
+
+        
 
         const [total, allProduct] = await Promise.all([
 
@@ -197,35 +213,33 @@ const updateProduct = async (req, res) => {
     try {
         const { field } = req.body
         const id = req.params.id
-        const isproductexist = await ProductModel.findById(id)
-        if (!isproductexist) {
-            return res.status(409).json({
-                message: "Data not found",
-                success: false
-            })
-        }
-        const fields = ["is_top", "status", "is_home", "is_popular"]
 
-        // agar field allowed nahi hai
-        if (!fields.includes(field)) {
+        const allowedFields = ["is_top", "status", "is_home", "is_popular"]
+
+        if (!allowedFields.includes(field)) {
             return res.status(400).json({
                 message: "Bad Request",
                 success: false
             })
         }
 
+        const product = await ProductModel.findById(id)
 
-        await ProductModel.findByIdAndUpdate(
-            id,
-            { [field]: !isproductexist[field] }
+        if (!product) {
+            return res.status(404).json({
+                message: "Data not found",
+                success: false
+            })
+        }
 
-        )
-
+        product[field] = !product[field]
+        await product.save()
 
         return res.status(200).json({
             message: "Product Updated Successfully",
             success: true
         })
+        
 
     } catch (error) {
         console.log(error)
@@ -238,16 +252,15 @@ const updateProduct = async (req, res) => {
 
 const editbrand = async (req, res) => {
     try {
-
         const { name, slug } = req.body
         const id = req.params.id
         const brand_logo = req.files ? req.files.image : null
 
-        const isbrandexist = await BrandModel.findById(id)
+        const product = await ProductModel.findById(id)
 
-        if (!isbrandexist) {
+        if (!product) {
             return res.status(404).json({
-                message: "brand Not found",
+                message: "Product Not Found",
                 success: false
             })
         }
@@ -257,47 +270,23 @@ const editbrand = async (req, res) => {
         if (name) update.name = name
         if (slug) update.slug = slug
 
-        // console.log(update, "update")
-
         if (brand_logo) {
-
             const image = uniqueName(brand_logo.name)
-            const destination = "./public/images/brand/" + image
+            const destination = "./public/images/product/" + image
 
-            brand_logo.mv(destination, async (error) => {
-
-                if (error) {
-                    return res.status(500).json({
-                        message: "Internal Server Error",
-                        success: false
-                    })
-                }
-
-                update.image = image
-
-                await BrandModel.findByIdAndUpdate(id, {
-                    $set: update
-                })
-
-                res.status(201).json({
-                    message: "Category Updated Successfully",
-                    success: true
-                })
-            })
-
-        } else {
-
-            await BrandModel.findByIdAndUpdate(id, {
-                $set: update
-            })
-
-            res.status(201).json({
-                message: "Category Updated Successfully",
-                success: true
-            })
+            await brand_logo.mv(destination)
+            update.image = image
         }
 
+        await ProductModel.findByIdAndUpdate(id, { $set: update })
+
+        res.status(200).json({
+            message: "Product Updated Successfully",
+            success: true
+        })
+
     } catch (error) {
+        console.log(error)
         res.status(500).json({
             message: "Internal Server Error",
             success: false
@@ -375,4 +364,4 @@ const delete_image = async (req, res) => {
     }
 }
 
-module.exports = { createproduct, getProduct, add_images, delete_image, getProductById, deleteProduct, updateProduct }
+module.exports = { createproduct, getProduct, add_images, delete_image,editbrand, getProductById, deleteProduct, updateProduct }

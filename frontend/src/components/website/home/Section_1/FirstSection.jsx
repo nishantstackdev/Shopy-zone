@@ -8,12 +8,10 @@ export default function FirstSection() {
     
 
     return (
-        <section className="w-full bg-slate-50 py-5">
-            <div className='max-w-7xl mx-auto px-4 md:px-8 mt-6'>
+        <section className="w-full bg-slate-50">
+            <div className='max-w-[1600px] mx-auto px-4 md:px-8 mt-6'>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
-                    {/* Sidebar */}
-                    <CategorySidebar />
 
                     {/* Mobile banner */}
                     <div className="block lg:hidden col-span-1">
@@ -21,7 +19,7 @@ export default function FirstSection() {
                     </div>
 
                     {/* Hero */}
-                    <div className="hidden lg:block col-span-3">
+                    <div className="hidden lg:block col-span-12">
                         <HeroImage />
                     </div>
 

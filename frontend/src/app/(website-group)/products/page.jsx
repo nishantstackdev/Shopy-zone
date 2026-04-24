@@ -1,15 +1,16 @@
 
-import ShopPosters from '@/components/website/store/Section_1/Pageinfo'
-import Pagination from '@/components/website/store/Section_2/Pagination'
-import Section_two from '@/components/website/store/Section_2/products/Section_two'
+
+
+import Productsgrid from '@/components/website/store/Section_2/Productsgrid'
 import React from 'react'
 
-export default function page() {
+export default function page({searchParams}) {
+  // console.log(searchParams)
   return (
     <div>
-        <ShopPosters />
-        <Section_two/>
-        <Pagination />
+        
+        <Productsgrid searchParams={searchParams} />
+        
     </div>
   )
 }

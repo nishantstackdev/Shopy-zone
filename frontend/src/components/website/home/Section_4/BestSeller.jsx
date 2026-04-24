@@ -1,68 +1,21 @@
 'use client'
-
+import { useEffect } from "react";
 import { useState } from "react";
 import ProductCard from "../../global/ProductCard";
+import { getProduct } from "@/api/Product";
 
 export default function BestSeller() {
+    const [products, setProducts] = useState([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            const res = await getProduct({limit:8,status:true,is_popular:true});
+            setProducts(res.allProduct || []);
+        };
+        fetchData();
+    }, []);
 
-    const products = [
-        {
-            category: "Furniture & Decor",
-            title: "Boat Shaped Slab Base Table",
-            price: 115,
-            oldPrice: 130,
-            image: "/chair.png"
-        },
-        {
-            category: "Furniture & Decor",
-            title: "Modern Wooden Chair",
-            price: 90,
-            oldPrice: 110,
-            image: "/chair.png"
-        },
-        {
-            category: "Furniture & Decor",
-            title: "Office Sofa Set",
-            price: 220,
-            oldPrice: 250,
-            image: "/chair.png"
-        },
-        {
-            category: "Furniture & Decor",
-            title: "Luxury Dining Table",
-            price: 300,
-            oldPrice: 350,
-            image: "/chair.png"
-        },
-        {
-            category: "Furniture & Decor",
-            title: "Wooden Cupboard",
-            price: 180,
-            oldPrice: 210,
-            image: "/chair.png"
-        },
-        {
-            category: "Furniture & Decor",
-            title: "Wooden Cupboard",
-            price: 180,
-            oldPrice: 210,
-            image: "/chair.png"
-        },
-        {
-            category: "Furniture & Decor",
-            title: "Wooden Cupboard",
-            price: 180,
-            oldPrice: 210,
-            image: "/chair.png"
-        },
-        {
-            category: "Furniture & Decor",
-            title: "Wooden Cupboard",
-            price: 180,
-            oldPrice: 210,
-            image: "/chair.png"
-        }
-    ];
+
+
 
     const itemsPerView = 4;
     const totalSlides = Math.ceil(products.length / itemsPerView);
@@ -91,47 +44,47 @@ export default function BestSeller() {
             <div className="overflow-hidden">
 
                 <div className="overflow-hidden">
-                
-                                <div
-                                    className="flex transition-transform duration-500"
-                                    style={{
-                                        transform: `translateX(-${index * 100}%)`
-                                    }}
-                                >
-                
-                                    {Array.from({ length: totalSlides }).map((_, slideIndex) => (
-                
-                                        <div
-                                            key={slideIndex}
-                                            className="min-w-full p-4"
-                                        >
-                
-                                            <div className="flex flex-col">
-                
-                                                {products
-                                                    .slice(
-                                                        slideIndex * itemsPerView,
-                                                        slideIndex * itemsPerView + itemsPerView
-                                                    )
-                                                    .map((pd, i) => (
-                
-                                                        <ProductCard
-                                                            key={slideIndex + i}
-                                                             category={pd.category} title={pd.title} price={pd.price} oldPrice={pd.oldPrice} image={pd.image}
-                                                            variant="horizontal"
-                                                        />
-                
-                                                    ))}
-                
-                                            </div>
-                
-                                        </div>
-                
-                                    ))}
-                
+
+                    <div
+                        className="flex transition-transform duration-500"
+                        style={{
+                            transform: `translateX(-${index * 100}%)`
+                        }}
+                    >
+
+                        {Array.from({ length: totalSlides }).map((_, slideIndex) => (
+
+                            <div
+                                key={slideIndex}
+                                className="min-w-full p-4"
+                            >
+
+                                <div className="flex flex-col">
+
+                                    {products
+                                        .slice(
+                                            slideIndex * itemsPerView,
+                                            slideIndex * itemsPerView + itemsPerView
+                                        )
+                                        .map((pd, i) => (
+
+                                            <ProductCard
+                                                key={slideIndex + i}
+                                                product={pd}
+                                                variant="horizontal"
+                                            />
+
+                                        ))}
+
                                 </div>
-                
+
                             </div>
+
+                        ))}
+
+                    </div>
+
+                </div>
 
             </div>
 
