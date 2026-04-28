@@ -104,6 +104,7 @@ const getById = async (req, res) => {
 
 const updatecategory = async (req, res) => {
     try {
+        console.log(req.cookies)
         const { field } = req.body
         const id = req.params.id
 

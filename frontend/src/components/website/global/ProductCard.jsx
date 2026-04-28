@@ -48,7 +48,7 @@ export default function ProductCard({ product, id, variant = "vertical" }) {
 
   // ================= VERTICAL =================
   return (
-    <div className="group bg-white rounded-xl p-4 cursor-pointer min-w-[240px] flex-1 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] relative">
+    <div className="group bg-white rounded-xl p-4 cursor-pointer w-full shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] relative">
 
       {/* Discount Badge */}
       {product.discount_price > 0 && (

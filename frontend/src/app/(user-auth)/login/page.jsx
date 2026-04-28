@@ -1,8 +1,12 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
+import { instance,notify } from "@/helper/helper";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+    const router = useRouter()
+    const [loading,setloading] = useState(false)
     const [form, setForm] = useState({
         email: "",
         password: "",
@@ -14,9 +18,30 @@ export default function LoginPage() {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(form);
+    
+
+
+        setloading(true);
+        instance.post("user/login", form)
+            .then((res) => {
+                // console.log(res)
+                if (res.data.success) {
+                    notify(res?.data?.message, true);
+                    router.push("/");
+                }
+            })
+            .catch((err) => {
+                const message =
+                    err?.response?.data?.message ||
+                    err?.message ||
+                    "Something Went Wrong";
+                notify(message, false);
+            })
+            .finally(() => {
+                setloading(false);
+            });
     };
 
     return (
@@ -85,7 +110,14 @@ export default function LoginPage() {
                             type="submit"
                             className="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg transition"
                         >
-                            Login
+                            {loading ? (
+                                <>
+                                    <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></span>
+                                    Logging in...
+                                </>
+                            ) : (
+                                "Login"
+                            )}
                         </button>
 
                         {/* Register Link */}

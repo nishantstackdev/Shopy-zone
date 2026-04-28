@@ -10,7 +10,7 @@ export default async function Recommended() {
             <div className="max-w-7xl mx-auto px-4 relative">
 
                 {/* Header - Added fade-right */}
-                <div className="flex justify-between items-center" data-aos="fade-right">
+                <div className="flex justify-between items-center" data-aos="fade-right" data-aos-offset="50">
                     <h1 className="font-bold text-2xl">
                         Recommended For You
                     </h1>

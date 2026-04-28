@@ -9,7 +9,8 @@ function slugCreate(value) {
     return slug
 }
 const instance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_URL
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+  withCredentials:true
 });
 
 export {slugCreate,notify,instance}

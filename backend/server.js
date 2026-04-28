@@ -8,12 +8,13 @@ const { BrandRouter } = require('./routers/Brandrouter')
 const { ColorRouter } = require('./routers/Colorrouter')
 const { ProductRuter } = require('./routers/Productrouter')
 const { UserRouter } = require('./routers/Userrouter')
+const cookieParser = require('cookie-parser')
 
 const server = express()
 
-server.use(cors({ origin: "http://localhost:3000" }))
+server.use(cors({ origin: "http://localhost:3000",credentials:true }))
 server.use(express.json())
-
+server.use(cookieParser())
 server.use("/category", categoryrouter)
 server.use("/brand", BrandRouter)
 server.use("/color", ColorRouter)

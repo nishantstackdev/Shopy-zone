@@ -2,6 +2,10 @@ import Sidebar from "@/components/admin/Sidebar";
 import Header from "@/components/admin/Header";
 import { ToastContainer } from "react-toastify";
 
+export const metadata = {
+  title: "Admin Panel",
+};
+
 export default function AdminLayout({ children }) {
   return (
     <div className="w-full h-screen flex">

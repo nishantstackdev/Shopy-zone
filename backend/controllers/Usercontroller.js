@@ -1,7 +1,8 @@
 const Usermodel = require("../models/Usermodel")
 const Cryptr = require('cryptr');
 const cryptr = new Cryptr(process.env.SECRET_KEY);
-const {sendOtpMail} = require("../utils/SendOtp")
+const { sendOtpMail } = require("../utils/SendOtp");
+const generateToken = require("../utils/generateToken");
 
 const register = async (req, res) => {
     try {
@@ -32,7 +33,7 @@ const register = async (req, res) => {
         })
         const mailRes = await sendOtpMail(email, otp)
 
-         return res.status(201).json({
+        return res.status(201).json({
             message: "User Created Successfully",
             success: true,
             id: user._id,
@@ -53,6 +54,7 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;
+
 
         if (!email || !password) {
             return res.status(400).json({
@@ -80,6 +82,15 @@ const login = async (req, res) => {
             });
         }
 
+        const token = generateToken(userexist._id)
+
+        res.cookie('jwt', token, {
+            maxAge: 30 * 24 * 60 * 60 * 1000, // Expires in 30 Days
+            httpOnly: true, // Accessible only by the server
+            secure: true, // Sent only over HTTPS
+            sameSite: 'strict' // Prevents CSRF attacks
+        });
+
         return res.status(200).json({
             message: "User Login Successfully",
             success: true,
@@ -87,6 +98,7 @@ const login = async (req, res) => {
             name: userexist.name,
             email: userexist.email
         });
+
 
     } catch (error) {
         console.log(error);
@@ -172,4 +184,4 @@ const resetOtp = async (req, res) => {
     }
 }
 
-module.exports = { register,login,verifyEmail,resetOtp }
+module.exports = { register, login, verifyEmail, resetOtp }

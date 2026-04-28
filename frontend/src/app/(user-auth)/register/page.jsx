@@ -2,9 +2,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { instance, notify } from "@/helper/helper";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function RegisterPage() {
+    
     const router = useRouter();
     const [loading, setloading] = useState(false);
     const [form, setForm] = useState({
@@ -17,7 +18,7 @@ export default function RegisterPage() {
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
-
+4
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -28,10 +29,9 @@ export default function RegisterPage() {
         setloading(true);
         instance.post("user/create", form)
             .then((res) => {
-                console.log(res)
                 if (res.data.success) {
                     notify(res?.data?.message, true);
-                    router.push("/verify-otp");
+                    router.push(`/verify-otp?email=${res.data.email}`);
                     router.refresh();
                     setForm({
                         name:"",

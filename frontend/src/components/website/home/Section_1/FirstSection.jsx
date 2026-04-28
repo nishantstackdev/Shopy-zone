@@ -14,12 +14,12 @@ export default function FirstSection() {
 
 
                     {/* Mobile banner */}
-                    <div className="block lg:hidden col-span-1">
+                    <div className="block md:hidden col-span-1">
                         <Mobilebanner />
                     </div>
 
                     {/* Hero */}
-                    <div className="hidden lg:block col-span-12">
+                    <div className="hidden md:block col-span-12">
                         <HeroImage />
                     </div>
 

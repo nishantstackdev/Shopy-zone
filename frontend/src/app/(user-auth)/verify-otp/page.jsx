@@ -1,11 +1,17 @@
 "use client";
 import { useRef, useState } from "react";
-import { instance } from "@/helper/helper";
+import { instance, notify } from "@/helper/helper";
+import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 export default function OTPPage() {
-  const [loading,setloading] = useState(false)
+  const searchParams = useSearchParams()
+  const email = searchParams.get("email")
+  // console.log(email,"email")
+  const [loading, setloading] = useState(false)
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const inputsRef = useRef([]);
+  const router = useRouter()
 
   const handleChange = (value, index) => {
     if (!/^[0-9]?$/.test(value)) return;
@@ -29,25 +35,16 @@ export default function OTPPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const finalOtp = otp.join("")
 
-    if (form.password !== form.confirmPassword) {
-      return notify("Passwords do not match", false);
-    }
 
     setloading(true);
-    instance.post("user/create", form)
+    instance.post("user/verify-otp", { otp: finalOtp, email })
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         if (res.data.success) {
           notify(res?.data?.message, true);
-          router.push("/verify-otp");
-          router.refresh();
-          setForm({
-            name: "",
-            email: "",
-            password: "",
-            confirmPassword: ""
-          })
+          router.push("/login");
         }
       })
       .catch((err) => {
@@ -98,7 +95,14 @@ export default function OTPPage() {
             type="submit"
             className="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg transition"
           >
-            Verify
+            {loading ? (
+              <>
+                <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></span>
+                Verifying...
+              </>
+            ) : (
+              "verify"
+            )}
           </button>
 
           {/* Resend */}
