@@ -2,6 +2,7 @@
 import { qtyChange } from "@/redux/features/cartSlice";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Link from "next/link";
 
 const CartPage = () => {
   const cart = useSelector((store) => store.cart)
@@ -17,7 +18,7 @@ const CartPage = () => {
             cart.items.map((item, index) => {
               return (
 
-                <div className="bg-white rounded-2xl shadow-sm p-5 flex gap-5 items-center">
+                <div key={index} className="bg-white rounded-2xl shadow-sm p-5 flex gap-5 items-center">
                   <div className="relative">
                     <span className="absolute -top-2 -left-2 bg-green-500 text-white text-xs px-2 py-1 rounded-lg">
                       SAVE $199
@@ -37,9 +38,9 @@ const CartPage = () => {
 
                     <div className="flex items-center gap-3 mt-3">
                       <div className="flex items-center border rounded-lg overflow-hidden">
-                        <button className="px-3 py-1 text-gray-500" onClick={()=>dispatcher(qtyChange({id:item.id,flag:"dsc"}))}>-</button>
+                        <button className="px-3 py-1 text-gray-500" onClick={() => dispatcher(qtyChange({ id: item.id, flag: "dsc" }))}>-</button>
                         <span className="px-4">{item.qty}</span>
-                        <button className="px-3 py-1 text-gray-500" onClick={()=>dispatcher(qtyChange({id:item.id,flag:"inc"}))}>+</button>
+                        <button className="px-3 py-1 text-gray-500" onClick={() => dispatcher(qtyChange({ id: item.id, flag: "inc" }))}>+</button>
                       </div>
                       <span className="text-green-600 text-sm">Free Shipping</span>
                     </div>
@@ -68,20 +69,23 @@ const CartPage = () => {
 
             <div className="flex justify-between">
               <span className="text-gray-500">Saving</span>
-              <span className="font-medium">${cart.original_total-cart.final_total}</span>
+              <span className="font-medium">${cart.original_total - cart.final_total}</span>
             </div>
 
-            
+
 
             <div className="border-t pt-3 flex justify-between text-lg font-semibold">
               <span>Total</span>
               <span>${cart.original_total}</span>
             </div>
           </div>
+          <Link href="/checkout">
+            <button className="w-full mt-6 bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-xl font-medium transition">
+              Checkout
+            </button>
+          </Link>
 
-          <button className="w-full mt-6 bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-xl font-medium transition">
-            Checkout
-          </button>
+
         </div>
       </div>
     </div>

@@ -35,6 +35,7 @@ export default function Posters() {
 
             {/* LEFT - HERO */}
             <div
+                data-aos="fade-right"
                 className="lg:col-span-2 h-[300px] sm:h-[400px] rounded-2xl border bg-cover bg-center relative flex items-center px-6 sm:px-10"
                 style={{ backgroundImage: `url(${current.image})` }}
             >
@@ -42,7 +43,7 @@ export default function Posters() {
                 <div className="absolute inset-0 bg-black/20 rounded-2xl"></div>
 
                 {/* TEXT */}
-                <div className="relative z-10 max-w-xl text-white">
+                <div data-aos="fade-up" className="relative z-10 max-w-xl text-white">
 
                     <p className="text-red-400 text-sm sm:text-lg mb-2">
                         {current.subtitle}
@@ -77,7 +78,7 @@ export default function Posters() {
             </div>
 
             {/* RIGHT - SALE CARD */}
-            <div className="h-[300px] sm:h-[400px]">
+            <div data-aos="fade-left" className="h-[300px] sm:h-[400px]">
                 <div className="relative rounded-2xl overflow-hidden h-full flex items-center justify-center group">
 
                     {/* Background */}
@@ -90,7 +91,7 @@ export default function Posters() {
                     <div className="absolute inset-0 bg-black/30"></div>
 
                     {/* CONTENT */}
-                    <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 text-white">
+                    <div data-aos="fade-up" className="relative z-10 flex flex-col items-center justify-center text-center px-4 text-white">
 
                         <h2 className="text-lg sm:text-xl font-bold mb-2">
                             Cyber Sale

@@ -29,27 +29,27 @@ export const cartSlice = createSlice({
       state.items = []
       localStorage.removeItem("cart")
     },
-    qtyChange: (state,{payload}) => {
-      const item = state.items.find((item)=>item.id == payload.id)
-      if(!item) return
-      if(payload.flag=="inc"){
+    qtyChange: (state, { payload }) => {
+      const item = state.items.find((item) => item.id == payload.id)
+      if (!item) return
+      if (payload.flag == "inc") {
         item.qty++
       }
-      else{
-        if(item.qty > 1){
+      else {
+        if (item.qty > 1) {
           item.qty--
-        }else{
+        } else {
           state.items = state.items.filter((item) => item.id != payload.id)
         }
       }
-      localStorage.setItem("cart",JSON.stringify(state))
+      localStorage.setItem("cart", JSON.stringify(state))
     },
     lstocart: (state) => {
       const cartItem = JSON.parse(localStorage.getItem("cart"))
       if (cartItem) {
         state.items = cartItem.items
-        state.final_total = Number(cartItem.final_price)
-        state.original_total = Number(cartItem.original_price)
+        state.final_total = Number(cartItem.final_total)      // ✅ fixed
+        state.original_total = Number(cartItem.original_total) // ✅ fixed
       }
     }
   },

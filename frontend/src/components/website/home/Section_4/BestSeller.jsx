@@ -31,7 +31,7 @@ export default function BestSeller() {
     };
 
     return (
-        <div className="w-full max-w-7xl mx-auto bg-white shadow-lg rounded-xl overflow-hidden">
+        <div data-aos="fade-left" className="w-full max-w-7xl mx-auto bg-white shadow-lg rounded-xl overflow-hidden">
 
             {/* Header */}
             <div className="bg-black text-white flex justify-between px-4 py-3 items-center">

@@ -9,7 +9,7 @@ export default function Arrivals_best() {
         <NewArrivals />
       </div>
       <div className='px-4 h-[30%]'>
-        <img src="/images/home/SellerTablet.jpg" className='w-full object-cover hidden lg:block' alt="" />
+        <img data-aos="zoom-in" src="/images/home/SellerTablet.jpg" className='w-full object-cover hidden lg:block' alt="" />
       </div>
       <div className='md:w-[50%] lg:w-[30%] w-full p-3 '>
         <BestSeller />

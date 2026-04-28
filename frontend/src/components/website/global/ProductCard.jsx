@@ -11,16 +11,15 @@ export default function ProductCard({ product, id, variant = "vertical" }) {
   // ================= HORIZONTAL =================
   if (variant === "horizontal") {
     return (
-      
-      <div className="flex items-center cursor-pointer bg-white p-3 rounded-lg w-full gap-3 shadow-sm hover:shadow-md transition">
+      <div className="group flex items-center cursor-pointer bg-white p-3 rounded-lg w-full gap-3 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
 
         {/* Image */}
-        <Link href={`/products/product-detail/${product._id}`}>
+        <Link href={`/product-detail/${product._id}`}>
           <div className="w-20 h-20 flex-shrink-0 bg-gray-100 rounded-lg overflow-hidden">
             <img
               src={process.env.NEXT_PUBLIC_PRODUCT_IMAGE + product.thumbnail}
               alt={product.name}
-              className="w-full h-full object-contain"
+              className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
             />
           </div>
         </Link>
@@ -40,19 +39,16 @@ export default function ProductCard({ product, id, variant = "vertical" }) {
             ₹{product.final_price}
           </p>
 
-          <Addtocartbtn product={product} />
+          <Addtocartbtn product={product} id={product._id} />
 
         </div>
       </div>
-      
-
     )
   }
 
   // ================= VERTICAL =================
   return (
-
-    <div className="bg-white rounded-xl p-4 cursor-pointer min-w-[240px] flex-1 shadow-sm hover:shadow-lg transition relative">
+    <div className="group bg-white rounded-xl p-4 cursor-pointer min-w-[240px] flex-1 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] relative">
 
       {/* Discount Badge */}
       {product.discount_price > 0 && (
@@ -62,12 +58,12 @@ export default function ProductCard({ product, id, variant = "vertical" }) {
       )}
 
       {/* Image */}
-      <Link href={`/products/product-detail/${product._id}`}>
-        <div className="h-48 w-full flex items-center justify-center mb-4">
+      <Link href={`/product-detail/${product._id}`}>
+        <div className="h-48 w-full flex items-center justify-center mb-4 overflow-hidden">
           <img
             src={process.env.NEXT_PUBLIC_PRODUCT_IMAGE + product.thumbnail}
             alt={product.name}
-            className="max-h-full object-contain"
+            className="max-h-full object-contain transition-transform duration-500 group-hover:scale-110"
           />
         </div>
       </Link>
@@ -105,10 +101,11 @@ export default function ProductCard({ product, id, variant = "vertical" }) {
         {product.stock ? "In Stock" : "Out of Stock"}
       </p>
 
-      <Addtocartbtn product={product} />
+      {/* Button wrapper (optional hover sync) */}
+      <div className="mt-2 transition-all duration-300 group-hover:scale-[1.02]">
+        <Addtocartbtn product={product} id={product._id} />
+      </div>
 
     </div>
-
-
   )
 }

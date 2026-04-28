@@ -3,7 +3,7 @@ import { addTocart, qtyChange } from '@/redux/features/cartSlice'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-export default function Addtocartbtn({ product }) {
+export default function Addtocartbtn({ product,id}) {
     const cart = useSelector((store) => store.cart)
     const cartItem = cart?.items.find((item) => item.id == product._id)
 
@@ -28,7 +28,7 @@ export default function Addtocartbtn({ product }) {
 
                         <button
                             onClick={() => dispacher(qtyChange({ id: product._id, flag: "inc" }))}
-                            className='bg-[#FF4D6D] hover:bg-[#e04360] transition px-4 py-1 rounded-xl text-white text-lg font-bold'>
+                            className='bg-[#f6399d] hover:bg-[#f6399d] transition px-4 py-1 rounded-xl text-white text-lg font-bold'>
                             +
                         </button>
 
@@ -46,7 +46,7 @@ export default function Addtocartbtn({ product }) {
                                 qty: 1
                             }))
                         }}
-                        className='w-full text-white font-semibold cursor-pointer rounded-2xl py-2 my-3 bg-[#FF4D6D] block mx-auto'
+                        className='w-full text-white font-semibold cursor-pointer rounded-2xl py-2 my-3 bg-[#f6399d] block mx-auto'
                     >
                         Add to Cart
                     </button>
