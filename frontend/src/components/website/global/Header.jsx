@@ -6,7 +6,7 @@ import { Search, User, Heart, ShoppingCart, Menu, X, ChevronRight } from "lucide
 import { useDispatch, useSelector } from "react-redux";
 import { lstocart } from "@/redux/features/cartSlice";
 
-export default function Stickynav() {
+export default function Stickynav({ user }) {
   const [isOpen, setIsOpen] = useState(false);
   const cart = useSelector((store) => store.cart);
   const dispatcher = useDispatch();
@@ -34,10 +34,10 @@ export default function Stickynav() {
     <>
       <nav className="bg-white shadow-sm sticky top-0 z-50 w-full">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-3 flex items-center justify-between">
-          
+
           {/* LEFT: MOBILE MENU ICON (Visible on xs, sm, md, lg | Hidden on xl) */}
           <div className="xl:hidden flex items-center">
-            <button 
+            <button
               onClick={() => setIsOpen(true)}
               className="p-2 hover:bg-gray-100 rounded-lg transition"
             >
@@ -64,9 +64,8 @@ export default function Stickynav() {
                 <li key={item.path}>
                   <Link
                     href={item.path}
-                    className={`transition duration-200 ${
-                      isActive ? "text-black border-b-2 border-pink-500 pb-1" : "hover:text-pink-500"
-                    }`}
+                    className={`transition duration-200 ${isActive ? "text-black border-b-2 border-pink-500 pb-1" : "hover:text-pink-500"
+                      }`}
                   >
                     {item.name}
                   </Link>
@@ -88,8 +87,45 @@ export default function Stickynav() {
             </div>
 
             <div className="flex items-center gap-3 md:gap-4">
-              <User className="hidden sm:block cursor-pointer hover:text-pink-500 transition" size={22} />
-              
+              <Link href={"/profile"}>
+                <button className="flex items-center gap-2 border border-gray-200 hover:border-pink-400 px-4 py-2 rounded-full transition-all duration-300 bg-white shadow-sm hover:shadow-md group">
+
+                  {/* User Icon */}
+                  <div className="w-9 h-9 rounded-full bg-pink-100 flex items-center justify-center group-hover:bg-pink-500 transition">
+                    <User
+                      size={18}
+                      className="text-pink-500 group-hover:text-white transition"
+                    />
+                  </div>
+
+                  {/* Text */}
+                  <div className="hidden sm:flex flex-col items-start leading-tight">
+                    {user ? (
+                      <>
+                        <span className="text-xs text-gray-500">
+                          Welcome
+                        </span>
+
+                        <p className="text-sm font-semibold text-gray-800 max-w-[120px] truncate">
+                          {user.name}
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-xs text-gray-500">
+                          Account
+                        </span>
+
+                        <p className="text-sm font-semibold text-gray-800">
+                          Login / Register
+                        </p>
+                      </>
+                    )}
+                  </div>
+                </button>
+              </Link>
+
+
               <div className="relative cursor-pointer group">
                 <Heart size={22} className="group-hover:text-pink-500 transition" />
                 <span className="absolute -top-1.5 -right-1.5 text-[10px] bg-pink-500 text-white rounded-full h-4 w-4 flex items-center justify-center font-bold">
@@ -111,37 +147,37 @@ export default function Stickynav() {
       </nav>
 
       {/* MOBILE OVERLAY & SIDEBAR */}
-      <div 
+      <div
         className={`fixed inset-0 z-[60] transition-visibility duration-300 ${isOpen ? "visible" : "invisible"}`}
       >
         {/* Dark Background Overlay */}
-        <div 
+        <div
           className={`absolute inset-0 bg-black/50 transition-opacity duration-300 ${isOpen ? "opacity-100" : "opacity-0"}`}
           onClick={() => setIsOpen(false)}
         />
 
         {/* Sliding Sidebar */}
-        <div 
+        <div
           className={`absolute top-0 left-0 h-full w-[280px] bg-white shadow-2xl transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
         >
           <div className="flex flex-col h-full">
             {/* Sidebar Header */}
             <div className="p-5 border-b flex justify-between items-center bg-gray-50">
-               <div className="flex items-center space-x-2">
-                  <div className="w-8 h-8 flex items-center justify-center rounded-lg bg-pink-500 text-white font-bold">N</div>
-                  <span className="font-bold text-lg">NovaCart</span>
-               </div>
-               <button onClick={() => setIsOpen(false)} className="p-1 hover:bg-gray-200 rounded-full">
-                 <X size={22} />
-               </button>
+              <div className="flex items-center space-x-2">
+                <div className="w-8 h-8 flex items-center justify-center rounded-lg bg-pink-500 text-white font-bold">N</div>
+                <span className="font-bold text-lg">NovaCart</span>
+              </div>
+              <button onClick={() => setIsOpen(false)} className="p-1 hover:bg-gray-200 rounded-full">
+                <X size={22} />
+              </button>
             </div>
 
             {/* Sidebar Search (Mobile Only) */}
             <div className="p-4 md:hidden">
-               <div className="flex items-center border rounded-lg px-3 py-2 bg-gray-100">
-                  <Search size={18} className="text-gray-500 mr-2" />
-                  <input type="text" placeholder="Search products..." className="bg-transparent outline-none w-full text-sm" />
-               </div>
+              <div className="flex items-center border rounded-lg px-3 py-2 bg-gray-100">
+                <Search size={18} className="text-gray-500 mr-2" />
+                <input type="text" placeholder="Search products..." className="bg-transparent outline-none w-full text-sm" />
+              </div>
             </div>
 
             {/* Nav Links */}
@@ -151,9 +187,8 @@ export default function Stickynav() {
                 <Link
                   key={item.path}
                   href={item.path}
-                  className={`flex items-center justify-between px-6 py-3 text-sm font-medium transition ${
-                    pathname === item.path ? "text-pink-500 bg-pink-50" : "text-gray-700 hover:bg-gray-50"
-                  }`}
+                  className={`flex items-center justify-between px-6 py-3 text-sm font-medium transition ${pathname === item.path ? "text-pink-500 bg-pink-50" : "text-gray-700 hover:bg-gray-50"
+                    }`}
                 >
                   {item.name}
                   <ChevronRight size={14} className={pathname === item.path ? "opacity-100" : "opacity-0"} />
@@ -163,10 +198,10 @@ export default function Stickynav() {
 
             {/* Sidebar Footer */}
             <div className="p-6 border-t bg-gray-50 flex flex-col gap-4">
-               <button className="flex items-center gap-3 text-sm font-medium text-gray-700">
-                  <User size={18} /> My Account
-               </button>
-               <p className="text-[10px] text-gray-400">© 2024 NovaCart Premium Store</p>
+              <button className="flex items-center gap-3 text-sm font-medium text-gray-700">
+                <User size={18} /> My Account
+              </button>
+              <p className="text-[10px] text-gray-400">© 2024 NovaCart Premium Store</p>
             </div>
           </div>
         </div>

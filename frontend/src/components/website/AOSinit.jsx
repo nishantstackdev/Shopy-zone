@@ -9,6 +9,9 @@ export default function AOSInit() {
       duration: 700,
       once: false,
       mirror: true,
+      disable: function () {
+      return window.innerWidth < 768;
+    },
       offset: 30,
       anchorPlacement: "top-center", // 👈 ye main fix hai
     });

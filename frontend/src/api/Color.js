@@ -1,4 +1,5 @@
 import { instance } from "@/helper/helper"
+
 async function GetColor() {
   try {
     const res = await instance.get("color")
@@ -20,4 +21,5 @@ async function GetColorById(id) {
     return [];
   }
 }
+
 export { GetColor, GetColorById }

@@ -32,6 +32,7 @@ const register = async (req, res) => {
 
         })
         const mailRes = await sendOtpMail(email, otp)
+        console.log(mailRes)
 
         return res.status(201).json({
             message: "User Created Successfully",
@@ -184,4 +185,80 @@ const resetOtp = async (req, res) => {
     }
 }
 
-module.exports = { register, login, verifyEmail, resetOtp }
+const getMe = async (req, res) => {
+    try {
+
+
+
+        res.status(200).json({
+            message: "User Found",
+            success: true,
+            user: req.user
+        })
+
+
+
+    } catch (error) {
+        return res.status(500).json({
+            message: "Internal Server Error",
+            success: false
+        })
+    }
+}
+const logout = async (req, res) => {
+    try {
+
+        res.clearCookie('jwt')
+        return res.status(201).json({
+            message: "Cookies deleted successfully",
+            success: true
+        })
+
+
+
+    } catch (error) {
+        return res.status(500).json({
+            message: "Internal Server Error",
+            success: false
+        })
+    }
+}
+const addAddress = async (req, res) => {
+    try {
+
+        
+        const userId = req.user._id
+
+
+        const { fullName, phone, pincode, addressLine, city, state, country } = req.body
+        const user = await Usermodel.findById({ _id: userId })
+        console.log(fullName, phone, pincode, addressLine, city, state, country)
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found",
+                success: false
+            })
+        }
+        user.addresses.push({
+            fullName, phone, pincode, addressLine, city, state, country
+        })
+
+
+        await user.save()
+        res.status(200).json({
+            message: "Address Addedd Successfully",
+            success: true,
+            addresses: user.addresses
+        })
+        console.log(req.user)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+module.exports = { register, login, verifyEmail, resetOtp, getMe, logout, addAddress }

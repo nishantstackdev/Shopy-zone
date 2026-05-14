@@ -64,6 +64,7 @@ const sendOtpMail = async (toEmail, otp) => {
         return "otp sent successfully"
 
     } catch (error) {
+      console.log(error)
        return "error sending email"
     }
 }

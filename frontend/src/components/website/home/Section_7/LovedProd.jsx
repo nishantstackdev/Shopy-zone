@@ -22,7 +22,7 @@ export default function LovedProd({LovedProducts}) {
                     }}
                 >
                     {LovedProducts.map((pd,index) => (
-                        <SwiperSlide data-aos="fade-up" data-aos-delay={(index+1) * 100} key={pd.id} className="!w-auto">
+                        <SwiperSlide  key={pd.id}>
                             <ProductCard
                                     product={pd}
                                 />

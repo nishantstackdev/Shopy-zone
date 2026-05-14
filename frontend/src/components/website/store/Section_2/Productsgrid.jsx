@@ -7,11 +7,15 @@
 
     const category_slug = searchParams?.category_slug || null
     const brand_slug = searchParams?.brand_slug || null
+    const min_price = searchParams?.min_price || null
+    const max_price = searchParams?.max_price || null
 
     const product_response = await getProduct({
         status: true,
         category_slug,
-        brand_slug
+        brand_slug,
+        min_price,
+        max_price
     })
 
     const products = product_response?.allProduct || []

@@ -18,7 +18,7 @@ export default function RegisterPage() {
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
-4
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 

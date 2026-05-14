@@ -5,9 +5,10 @@ import {
     ChevronRight,
     Truck,
     RotateCcw,
-    ShieldCheck,
-    ArrowRight,
+    ShieldCheck
 } from "lucide-react";
+import RelatedProd from "@/components/website/store/related/RelatedProd";
+
 
 export default async function ProductPage({ params }) {
     const slug = params.slug;
@@ -125,6 +126,7 @@ export default async function ProductPage({ params }) {
                     </div>
                 </div>
             </div>
+            <RelatedProd category_id={product.category_id} currentId={product._id}/>
         </div>
     );
 }

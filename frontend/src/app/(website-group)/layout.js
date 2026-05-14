@@ -1,10 +1,12 @@
 import Header from "@/components/website/global/Header";
 import Footer from "@/components/website/global/Footer";
+import getMe from "@/services/auth";
 
-export default function WebsiteLayout({ children }) {
+export default async function WebsiteLayout({ children }) {
+  const { user } = await getMe()
   return (
     <>
-      <Header />
+      <Header user={user} />
       <main>
         {children}
       </main>

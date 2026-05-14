@@ -124,7 +124,14 @@ const getProduct = async (req, res) => {
             }
         }
 
-        
+        if (query.min_price && query.max_price) {
+            filter.final_price = {
+                $gte: parseInt(query.min_price),
+                $lte: parseInt(query.max_price)
+            }
+        }
+        // console.log(filter)
+
 
         const [total, allProduct] = await Promise.all([
 
@@ -239,7 +246,7 @@ const updateProduct = async (req, res) => {
             message: "Product Updated Successfully",
             success: true
         })
-        
+
 
     } catch (error) {
         console.log(error)
@@ -294,37 +301,58 @@ const editbrand = async (req, res) => {
     }
 }
 
+
+
 const add_images = async (req, res) => {
     try {
         const id = req.params.id
-        const isproductexist = await ProductModel.findById(id)
-        if (!isproductexist) {
+
+        const product = await ProductModel.findById(id)
+        if (!product) {
             return res.status(404).json({
-                message: "product Not found",
+                message: "Product Not Found",
                 success: false
             })
         }
+
+        // 👇 important check
         if (!req.files || !req.files.images) {
             return res.status(400).json({
-                message: "No Files were uploaded",
+                message: "No files uploaded",
                 success: false
             })
         }
-        const images = Array.isArray(req.files.image) ? req.files.images : [req.files.images]
-        const image_name = []
-        for (const image of images) {
-            const image_name = uniqueName(image.name)
-            const destination = "./public/images/product/other" + image_name
-            await image.mv(destination)
-            image_name.push(image_name)
+
+        // 👇 ensure array
+        const images = Array.isArray(req.files.images)
+            ? req.files.images
+            : [req.files.images]
+
+        const imageNames = []
+
+        for (const file of images) {
+            const fileName = uniqueName(file.name)
+
+            const destination = `./public/images/product/other/${fileName}`
+
+            await file.mv(destination)
+
+            imageNames.push(fileName)
         }
-        isproductexist.images.push(...image_name)
-        await isproductexist.save()
+
+        // 👇 push multiple images
+        product.images.push(...imageNames)
+
+        await product.save()
+
         return res.status(201).json({
             message: "Images Added Successfully",
-            success: true
+            success: true,
+            data: product
         })
+
     } catch (error) {
+        console.log(error)
         return res.status(500).json({
             message: "Internal Server Error",
             success: false
@@ -364,4 +392,4 @@ const delete_image = async (req, res) => {
     }
 }
 
-module.exports = { createproduct, getProduct, add_images, delete_image,editbrand, getProductById, deleteProduct, updateProduct }
+module.exports = { createproduct, getProduct, add_images, delete_image, editbrand, getProductById, deleteProduct, updateProduct }

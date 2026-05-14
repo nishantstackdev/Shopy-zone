@@ -1,7 +1,13 @@
-import React from 'react'
 
-export default function Checkout() {
+import Checkout from '@/components/website/checkout/Checkoutcomp'
+import getMe from '@/services/auth'
+
+
+
+export default async function page() {
+  const { user } = await getMe()
+
   return (
-    <div>Checkout....</div>
+    <Checkout user={user} />
   )
 }

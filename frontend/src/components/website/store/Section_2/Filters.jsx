@@ -14,6 +14,12 @@ function Filters() {
     const [categories, setCategories] = useState([]);
     const [brands, setBrands] = useState([]);
     const [colors, setColors] = useState([]);
+    const MIN_LIMIT = 0
+    const MAX_LIMIT = 5000
+    const minquery = Number(searchParams.get("min_price")) || MIN_LIMIT
+    const maxquery = Number(searchParams.get("max_price")) || MAX_LIMIT
+    const [min, setmin] = useState(minquery)
+    const [max, setmax] = useState(maxquery)
 
     // ✅ current selected values
     const selectedCategory = searchParams.get("category_slug")
@@ -35,6 +41,36 @@ function Filters() {
 
         fetchData();
     }, []);
+
+    function handlerminchange(e) {
+
+        let value = Number(e.target.value)
+        if (value < MIN_LIMIT) value = MIN_LIMIT
+        if (value > max) value = max
+        setmin(e.target.value)
+    }
+
+    function handlermaxchange(e) {
+    let value = Number(e.target.value)
+
+    if (value > MAX_LIMIT) value = MAX_LIMIT
+    if (value < min) value = min
+
+    setmax(e.target.value)
+}
+
+    const applyfilter = () => {
+        let query = new URLSearchParams(searchParams.toString())
+        if (min === MIN_LIMIT && max === MAX_LIMIT) {
+            query.delete('min_price')
+            query.delete('max_price')
+        }
+        else {
+            query.set('min_price', min)
+            query.set('max_price', max)
+        }
+        router.push(`?${query.toString()}`)
+    }
 
     // 🧠 COMMON MERGE FUNCTION
     function updateQuery(key, value) {
@@ -96,7 +132,7 @@ function Filters() {
                     ))}
                 </div>
             </div>
-                    
+
             <hr />
 
             {/* ================= BRANDS ================= */}
@@ -139,6 +175,47 @@ function Filters() {
                         />
                     ))}
                 </div>
+            </div>
+
+            <div>
+                <h4 className="font-semibold mb-3">PRICE</h4>
+
+                {/* Remove Filter */}
+                <button
+                    className="w-full bg-white border rounded-md py-2 mb-3"
+                >
+                    Remove Price
+                </button>
+
+                {/* Inputs */}
+                <div className="flex items-center gap-2 mb-3">
+
+                    <input
+                        type="number"
+                        placeholder="Min"
+                        value={min}
+                        onChange={handlerminchange}
+                        className="w-full border rounded-md px-2 py-1 text-sm outline-none focus:ring-2 focus:ring-black"
+                    />
+
+                    <input
+                        type="number"
+                        placeholder="Max"
+                        value={max}
+                        onChange={handlermaxchange}
+                        className="w-full border rounded-md px-2 py-1 text-sm outline-none focus:ring-2 focus:ring-black"
+                    />
+
+                </div>
+
+
+                {/* Apply Button */}
+                <button
+                    onClick={applyfilter}
+                    className="w-full bg-black text-white rounded-md py-2 text-sm hover:bg-gray-800 transition"
+                >
+                    Apply
+                </button>
             </div>
 
         </div>

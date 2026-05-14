@@ -23,9 +23,7 @@ export default function RecommendedProd({recommendedProducts}) {
                     {recommendedProducts.map((pd, index) => (
                         <SwiperSlide key={index}>
                             {/* Staggered animation logic */}
-                            <div 
-                                data-aos="fade-up" 
-                                data-aos-delay={(index + 1) * 100}
+                            <div
                             >
                                 <ProductCard product={pd} />
                             </div>

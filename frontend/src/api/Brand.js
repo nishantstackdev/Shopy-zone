@@ -1,4 +1,5 @@
 import { instance } from "@/helper/helper"
+
 async function GetBrands(query={}) {
   const filter = new URLSearchParams()
   if(query.id) filter.append("id",query.id)
@@ -25,4 +26,6 @@ async function GetBrandsById(id) {
     return [];
   }
 }
+
+
 export { GetBrands, GetBrandsById }
