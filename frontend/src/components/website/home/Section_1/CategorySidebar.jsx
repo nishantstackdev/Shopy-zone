@@ -16,6 +16,8 @@ import {
 
 
 
+export const dynamic = 'force-dynamic';
+
 export default async function CategorySidebar() {
 
   const categories = await GetCategories({ limit: 6, status: true, is_top: true })
@@ -23,7 +25,7 @@ export default async function CategorySidebar() {
 
   return (
     <aside className="w-full max-w-[300px] hidden md:block bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
-      
+
       {/* Header */}
       <div className="px-6 py-4 border-b bg-gray-50">
         <h2 className="text-lg font-semibold text-gray-800">
@@ -43,13 +45,13 @@ export default async function CategorySidebar() {
 
               {/* Icon / Image */}
               <div className="w-10 h-10 flex items-center justify-center rounded-lg bg-gray-100 overflow-hidden">
-                
-                  <img
-                    src={process.env.NEXT_PUBLIC_CATEGORY_IMAGE + cat.image}
-                    alt={cat.name}
-                    className="w-6 h-6 object-contain"
-                  />
-                
+
+                <img
+                  src={process.env.NEXT_PUBLIC_CATEGORY_IMAGE + cat.image}
+                  alt={cat.name}
+                  className="w-6 h-6 object-contain"
+                />
+
               </div>
 
               {/* Name */}

@@ -10,6 +10,8 @@ import {
 import RelatedProd from "@/components/website/store/related/RelatedProd";
 
 
+export const dynamic = 'force-dynamic';
+
 export default async function ProductPage({ params }) {
     const slug = params.slug;
     const res = await GetProductById(slug);
@@ -40,7 +42,7 @@ export default async function ProductPage({ params }) {
 
             {/* MAIN PRODUCT SECTION */}
             <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 grid lg:grid-cols-12 gap-12">
-                
+
                 {/* 📸 LEFT: PHOTO GALLERY */}
                 <div className="lg:col-span-7">
                     <div className="sticky top-10 space-y-4">
@@ -56,8 +58,8 @@ export default async function ProductPage({ params }) {
                         {/* Thumbnail Grid */}
                         <div className="grid grid-cols-4 gap-4">
                             {productGallery.map((img, i) => (
-                                <div 
-                                    key={i} 
+                                <div
+                                    key={i}
                                     className="aspect-square bg-gray-50 rounded-2xl border border-transparent hover:border-pink-500 cursor-pointer overflow-hidden transition-all"
                                 >
                                     <img
@@ -76,7 +78,7 @@ export default async function ProductPage({ params }) {
                     <span className="text-pink-600 text-xs font-bold uppercase tracking-widest bg-pink-50 w-fit px-3 py-1 rounded-full">
                         Premium Quality
                     </span>
-                    
+
                     <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 mt-4 leading-tight">
                         {product.name}
                     </h1>
@@ -126,7 +128,7 @@ export default async function ProductPage({ params }) {
                     </div>
                 </div>
             </div>
-            <RelatedProd category_id={product.category_id} currentId={product._id}/>
+            <RelatedProd category_id={product.category_id} currentId={product._id} />
         </div>
     );
 }

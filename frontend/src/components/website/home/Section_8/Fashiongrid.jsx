@@ -6,6 +6,8 @@ import Fashionproducts from './Fashionproducts'
 import axios from 'axios'
 
 
+export const dynamic = 'force-dynamic';
+
 export default async function Fashiongrid() {
     const product = await axios.get("http://localhost:8000/product?category_slug=fashion")
     const Fashionprod = product.data.allProduct
@@ -41,7 +43,7 @@ export default async function Fashiongrid() {
                 </div>
 
 
-            <Fashionproducts Fashionprod={Fashionprod} />
+                <Fashionproducts Fashionprod={Fashionprod} />
             </div>
 
         </section>

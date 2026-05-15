@@ -99,7 +99,7 @@ export default function ProductTableClient({ product }) {
                       </Link>
 
                       {/* Delete */}
-                      <DeleteBtn url={`http://localhost:8000/product/delete/${item._id}`} />
+                      <DeleteBtn url={`${process.env.NEXT_PUBLIC_API_URL}/product/delete/${item._id}`} />
 
                       {/* Images */}
                       <Link href={`/admin/product/other-images/${item._id}`}>

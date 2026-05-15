@@ -107,7 +107,7 @@ const CategoryTable = async () => {
                           </button>
                         </Link>
 
-                        <DeleteBtn url={`http://localhost:8000/color/delete/${item._id}`} endpoint="color" />
+                        <DeleteBtn url={`${process.env.NEXT_PUBLIC_API_URL}/color/delete/${item._id}`}endpoint="color" />
 
                       </div>
                     </td>

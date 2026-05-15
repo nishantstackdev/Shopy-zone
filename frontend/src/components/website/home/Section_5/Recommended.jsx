@@ -1,8 +1,10 @@
 import { getProduct } from "@/api/Product"
 import Link from "next/link"
 import RecommendedProd from "./RecommendedProd"
+export const dynamic = 'force-dynamic';
+
 export default async function Recommended() {
-    const product = await getProduct({status:true,is_popular:true})
+    const product = await getProduct({ status: true, is_popular: true })
     const recommendedProducts = product.allProduct
 
     return (

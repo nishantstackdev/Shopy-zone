@@ -5,6 +5,8 @@ import Link from "next/link";
 import StatusBtn from "@/components/admin/StatusBtn";
 import DeleteBtn from "@/components/admin/DeleteBtn";
 
+export const dynamic = 'force-dynamic';
+
 export default async function CategoryTable() {
   const categories = await GetCategories();
   const allcategories = await categories.allcategories;
@@ -91,16 +93,16 @@ export default async function CategoryTable() {
                       <div className="flex justify-center gap-2">
                         <Link href={`/admin/category/edit/${cat._id}`}>
                           <button className="p-2 bg-blue-100 rounded-lg hover:bg-blue-200 transition">
-                          
-                            <Pencil size={16} className="text-blue-600" />
-                          
 
-                        </button>
+                            <Pencil size={16} className="text-blue-600" />
+
+
+                          </button>
                         </Link>
 
-                        
 
-                        <DeleteBtn url={`http://localhost:8000/category/delete/${cat._id}`} />
+
+                        <DeleteBtn url={`${process.env.NEXT_PUBLIC_API_URL}/category/delete/${cat._id}`} />
 
                       </div>
                     </td>

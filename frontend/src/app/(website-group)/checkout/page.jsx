@@ -4,6 +4,8 @@ import getMe from '@/services/auth'
 
 
 
+export const dynamic = 'force-dynamic';
+
 export default async function page() {
   const { user } = await getMe()
 

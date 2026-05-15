@@ -1,9 +1,11 @@
-    import React from 'react'
-    import ProductCard from '../../global/ProductCard'
-    import { getProduct } from '@/api/Product'
+import React from 'react'
+import ProductCard from '../../global/ProductCard'
+import { getProduct } from '@/api/Product'
 
-    export default async function Productsgrid({ searchParams }) {
-        // console.log(searchParams,"asdkfjhsa")
+export const dynamic = 'force-dynamic';
+
+export default async function Productsgrid({ searchParams }) {
+    // console.log(searchParams,"asdkfjhsa")
 
     const category_slug = searchParams?.category_slug || null
     const brand_slug = searchParams?.brand_slug || null

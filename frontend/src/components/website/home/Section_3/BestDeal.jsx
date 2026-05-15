@@ -5,6 +5,8 @@ import ProductCard from '../../global/ProductCard';
 import SaleTimer from '../../Saletimer';
 import { getProduct } from '@/api/Product';
 
+export const dynamic = 'force-dynamic';
+
 export default async function BestDeal() {
   const allProduct = await getProduct({ limit: 4, status: true, is_best: true })
 

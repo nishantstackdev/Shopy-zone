@@ -15,6 +15,8 @@ async function getRelatedProducts(category_id, currentId) {
     }
 }
 
+export const dynamic = 'force-dynamic';
+
 export default async function RelatedProd({ category_id, currentId }) {
     const related = await getRelatedProducts(category_id, currentId);
 

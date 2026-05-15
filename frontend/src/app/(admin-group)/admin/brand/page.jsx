@@ -7,6 +7,8 @@ import { GetBrands } from "@/api/Brand";
 
 
 
+export const dynamic = 'force-dynamic';
+
 export default async function BrandTable() {
   const allBrands = await GetBrands();
   const brands = allBrands.allBrand;
@@ -73,7 +75,7 @@ export default async function BrandTable() {
                           </button>
                         </Link>
 
-                        <DeleteBtn url={`http://localhost:8000/brand/delete/${brand._id}`} />
+                        <DeleteBtn url={`${process.env.NEXT_PUBLIC_API_URL}/brand/delete/${brand._id}`} />
                       </div>
                     </td>
                   </tr>
