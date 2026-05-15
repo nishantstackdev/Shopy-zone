@@ -15,7 +15,13 @@ const Orderrouter = require('./routers/Orderrouter')
 
 const server = express()
 
-server.use(cors({ origin: "http://localhost:3000",credentials:true }))
+server.use(cors({
+    origin: [
+        "http://localhost:3000",
+        "https://shopy-zone.vercel.app"
+    ],
+    credentials: true
+}))
 server.use(express.json())
 server.use(cookieParser())
 server.use("/category", categoryrouter)
@@ -23,8 +29,8 @@ server.use("/brand", BrandRouter)
 server.use("/color", ColorRouter)
 server.use("/product", ProductRuter)
 server.use("/user", UserRouter)
-server.use("/cart",cartRouter)
-server.use("/order",Orderrouter)
+server.use("/cart", cartRouter)
+server.use("/order", Orderrouter)
 
 server.use(express.static("public"))
 
