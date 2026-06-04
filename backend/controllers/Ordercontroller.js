@@ -18,15 +18,18 @@ const Ordercreate = async (req, res) => {
                 select: "_id final_price"
             });
 
-        const productDetails = userCart.items.map((item) => {
-            const { _id, final_price } = item.productId
-            return {
-                product_id: _id,
-                qty: item.qty,
-                price: final_price,
-                total: (final_price * item.qty)
-            }
-        });
+        const productDetails = userCart.items
+            .filter(item => item.productId)
+            .map(item => {
+                const { _id, final_price } = item.productId;
+
+                return {
+                    product_id: _id,
+                    qty: item.qty,
+                    price: final_price,
+                    total: final_price * item.qty
+                };
+            });
 
         const total_Amount = productDetails.reduce((sum, item) => sum + item.total, sum = 0);
 
@@ -59,7 +62,10 @@ const Ordercreate = async (req, res) => {
             instance.orders.create(options, function (err, razorpayOrder) {
                 if (err) {
                     console.log(err)
-                    return sendSuccess(res, "payment failed")
+                    return res.status(500).json({
+                        message: "Payment failed",
+                        success: false
+                    })
                 };
 
                 order.razorpay_order_id = razorpayOrder.id;
@@ -77,7 +83,10 @@ const Ordercreate = async (req, res) => {
 
     } catch (error) {
         console.log(error)
-        return sendServerError(res)
+        return res.status(500).json({
+            message: "Internal Server Error",
+            success: false
+        })
     }
 };
 const paymentVerify = async (req, res) => {
@@ -195,4 +204,4 @@ const updateOrderStatus = async (req, res) => {
 
 module.exports = updateOrderStatus;
 
-module.exports = { Ordercreate, paymentVerify, getOrders,updateOrderStatus };
+module.exports = { Ordercreate, paymentVerify, getOrders, updateOrderStatus };

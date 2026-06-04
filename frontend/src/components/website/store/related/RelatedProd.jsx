@@ -58,7 +58,7 @@ function RelatedProductCard({ product }) {
 
     return (
         <Link
-            href={`/product/${product.slug}`}
+            href={`/product-detail/${product._id}`}
             className="group block bg-white rounded-3xl border border-gray-100 overflow-hidden hover:shadow-xl hover:shadow-gray-100 transition-all duration-300 hover:-translate-y-1"
         >
             {/* Image */}

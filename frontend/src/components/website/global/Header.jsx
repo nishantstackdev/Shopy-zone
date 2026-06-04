@@ -1,25 +1,45 @@
 'use client';
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation"; // 🔍 Added useRouter and useSearchParams
 import { Search, User, Heart, ShoppingCart, Menu, X, ChevronRight } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { lstocart } from "@/redux/features/cartSlice";
 
 export default function Stickynav({ user }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchVal, setSearchVal] = useState(""); // 🔍 State to hold the global search text
   const cart = useSelector((store) => store.cart);
   const dispatcher = useDispatch();
   const pathname = usePathname();
+  const router = useRouter(); // 🔍 Next.js Navigation Engine Router
+  const searchParams = useSearchParams(); // 🔍 To capture existing URL query params
 
   useEffect(() => {
     dispatcher(lstocart());
   }, []);
 
+  // Sync state if search query is cleared from somewhere else (e.g., clearing filters)
+  useEffect(() => {
+    const currentSearch = searchParams.get("search") || "";
+    setSearchVal(currentSearch);
+  }, [searchParams]);
+
   // Close sidebar on route change
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
+
+  // 🔍 Dynamic Form Submit Handler for Global Redirection Search
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchVal.trim()) {
+      // Directs the client safely to the Shop layout accompanied by query parameters
+      router.push(`/products?search=${encodeURIComponent(searchVal.trim())}`);
+    } else {
+      router.push("/products"); // Fallback to raw shop array list
+    }
+  };
 
   const navItems = [
     { name: "Home", path: "/" },
@@ -35,7 +55,7 @@ export default function Stickynav({ user }) {
       <nav className="bg-white shadow-sm sticky top-0 z-50 w-full">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-3 flex items-center justify-between">
 
-          {/* LEFT: MOBILE MENU ICON (Visible on xs, sm, md, lg | Hidden on xl) */}
+          {/* LEFT: MOBILE MENU ICON */}
           <div className="xl:hidden flex items-center">
             <button
               onClick={() => setIsOpen(true)}
@@ -45,7 +65,7 @@ export default function Stickynav({ user }) {
             </button>
           </div>
 
-          {/* CENTER: LOGO (Always Visible) */}
+          {/* CENTER: LOGO */}
           <Link href="/" className="flex items-center space-x-2 cursor-pointer group">
             <div className="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center rounded-xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-bold text-lg md:text-xl shadow-md group-hover:scale-105 transition duration-300">
               N
@@ -56,7 +76,7 @@ export default function Stickynav({ user }) {
             </h1>
           </Link>
 
-          {/* CENTER: DESKTOP NAV (Visible ONLY on xl) */}
+          {/* CENTER: DESKTOP NAV */}
           <ul className="hidden xl:flex gap-8 uppercase text-[13px] font-semibold text-gray-600">
             {navItems.map((item) => {
               const isActive = pathname === item.path;
@@ -76,21 +96,22 @@ export default function Stickynav({ user }) {
 
           {/* RIGHT SECTION: ICONS & SEARCH */}
           <div className="flex items-center gap-3 md:gap-5">
-            {/* SEARCH: Hidden on small mobiles, visible from md up */}
-            <div className="hidden md:flex items-center border rounded-full px-4 py-1.5 text-sm bg-gray-50 focus-within:ring-1 ring-pink-200 transition">
+            
+            {/* 🔍 DESKTOP SEARCH: Wrapped in a form to intercept Enter keys easily */}
+            <form onSubmit={handleSearchSubmit} className="hidden md:flex items-center border rounded-full px-4 py-1.5 text-sm bg-gray-50 focus-within:ring-1 ring-pink-200 transition">
               <Search size={16} className="mr-2 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search..."
+                value={searchVal}
+                onChange={(e) => setSearchVal(e.target.value)}
+                placeholder="Search products..."
                 className="outline-none w-24 lg:w-40 bg-transparent"
               />
-            </div>
+            </form>
 
             <div className="flex items-center gap-3 md:gap-4">
               <Link href={"/profile"}>
                 <button className="flex items-center gap-2 border border-gray-200 hover:border-pink-400 px-4 py-2 rounded-full transition-all duration-300 bg-white shadow-sm hover:shadow-md group">
-
-                  {/* User Icon */}
                   <div className="w-9 h-9 rounded-full bg-pink-100 flex items-center justify-center group-hover:bg-pink-500 transition">
                     <User
                       size={18}
@@ -98,39 +119,27 @@ export default function Stickynav({ user }) {
                     />
                   </div>
 
-                  {/* Text */}
                   <div className="hidden sm:flex flex-col items-start leading-tight">
                     {user ? (
                       <>
-                        <span className="text-xs text-gray-500">
-                          Welcome
-                        </span>
-
+                        <span className="text-xs text-gray-500">Welcome</span>
                         <p className="text-sm font-semibold text-gray-800 max-w-[120px] truncate">
                           {user.name}
                         </p>
                       </>
                     ) : (
                       <>
-                        <span className="text-xs text-gray-500">
-                          Account
-                        </span>
-
-                        <p className="text-sm font-semibold text-gray-800">
-                          Login / Register
-                        </p>
+                        <span className="text-xs text-gray-500">Account</span>
+                        <p className="text-sm font-semibold text-gray-800">Login / Register</p>
                       </>
                     )}
                   </div>
                 </button>
               </Link>
 
-
               <div className="relative cursor-pointer group">
                 <Heart size={22} className="group-hover:text-pink-500 transition" />
-                <span className="absolute -top-1.5 -right-1.5 text-[10px] bg-pink-500 text-white rounded-full h-4 w-4 flex items-center justify-center font-bold">
-                  0
-                </span>
+                <span className="absolute -top-1.5 -right-1.5 text-[10px] bg-pink-500 text-white rounded-full h-4 w-4 flex items-center justify-center font-bold">0</span>
               </div>
 
               <Link href={"/cart"}>
@@ -147,20 +156,12 @@ export default function Stickynav({ user }) {
       </nav>
 
       {/* MOBILE OVERLAY & SIDEBAR */}
-      <div
-        className={`fixed inset-0 z-[60] transition-visibility duration-300 ${isOpen ? "visible" : "invisible"}`}
-      >
-        {/* Dark Background Overlay */}
-        <div
-          className={`absolute inset-0 bg-black/50 transition-opacity duration-300 ${isOpen ? "opacity-100" : "opacity-0"}`}
-          onClick={() => setIsOpen(false)}
-        />
+      <div className={`fixed inset-0 z-[60] transition-visibility duration-300 ${isOpen ? "visible" : "invisible"}`}>
+        <div className={`absolute inset-0 bg-black/50 transition-opacity duration-300 ${isOpen ? "opacity-100" : "opacity-0"}`} onClick={() => setIsOpen(false)} />
 
-        {/* Sliding Sidebar */}
-        <div
-          className={`absolute top-0 left-0 h-full w-[280px] bg-white shadow-2xl transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
-        >
+        <div className={`absolute top-0 left-0 h-full w-[280px] bg-white shadow-2xl transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"}`}>
           <div className="flex flex-col h-full">
+            
             {/* Sidebar Header */}
             <div className="p-5 border-b flex justify-between items-center bg-gray-50">
               <div className="flex items-center space-x-2">
@@ -172,12 +173,18 @@ export default function Stickynav({ user }) {
               </button>
             </div>
 
-            {/* Sidebar Search (Mobile Only) */}
+            {/* 🔍 MOBILE SEARCH (Sidebar): Wrapped inside form wrapper */}
             <div className="p-4 md:hidden">
-              <div className="flex items-center border rounded-lg px-3 py-2 bg-gray-100">
+              <form onSubmit={handleSearchSubmit} className="flex items-center border rounded-lg px-3 py-2 bg-gray-100">
                 <Search size={18} className="text-gray-500 mr-2" />
-                <input type="text" placeholder="Search products..." className="bg-transparent outline-none w-full text-sm" />
-              </div>
+                <input 
+                  type="text" 
+                  value={searchVal}
+                  onChange={(e) => setSearchVal(e.target.value)}
+                  placeholder="Search products..." 
+                  className="bg-transparent outline-none w-full text-sm" 
+                />
+              </form>
             </div>
 
             {/* Nav Links */}
@@ -201,7 +208,7 @@ export default function Stickynav({ user }) {
               <button className="flex items-center gap-3 text-sm font-medium text-gray-700">
                 <User size={18} /> My Account
               </button>
-              <p className="text-[10px] text-gray-400">© 2024 NovaCart Premium Store</p>
+              <p className="text-[10px] text-gray-400">© 2026 NovaCart Premium Store</p>
             </div>
           </div>
         </div>

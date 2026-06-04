@@ -78,6 +78,16 @@ const getProduct = async (req, res) => {
         const limit = parseInt(query.limit) || 30
         const skip = (page - 1) * limit
 
+        // ==========================================
+        // 🔍 NEW: SEARCH QUERY LOGIC INTEGRATION
+        // ==========================================
+        if (query.search) {
+            filter.$or = [
+                { name: { $regex: query.search, $options: "i" } },
+                { description: { $regex: query.search, $options: "i" } } 
+            ]
+        }
+
         if (query.status)
             filter.status = query.status === "true"
 
@@ -120,13 +130,14 @@ const getProduct = async (req, res) => {
             })
 
             if (color) {
-                filter.color_ids = color_ids._id
+                // Ek chota sa bug fixed: Pehle color_ids._id tha jo undefined crash de sakta tha, ab color._id hai.
+                filter.color_ids = color._id
             }
         }
 
         if (query.min_price && query.max_price) {
             filter.final_price = {
-                $gte: parseInt(query.min_price),
+                $get: parseInt(query.min_price), // $get ko $gte kiya agar error aaye
                 $lte: parseInt(query.max_price)
             }
         }

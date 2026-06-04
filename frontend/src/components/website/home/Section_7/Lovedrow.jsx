@@ -4,8 +4,6 @@ import Link from 'next/link'
 import LovedProd from './LovedProd'
 import { getProduct } from "@/api/Product"
 
-export const dynamic = 'force-dynamic';
-
 export default async function Lovedrow() {
     const product = await getProduct({ status: true, is_best: true, limit: 4 })
     const LovedProducts = product.allProduct

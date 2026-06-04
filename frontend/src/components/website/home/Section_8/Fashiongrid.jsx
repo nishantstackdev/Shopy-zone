@@ -6,11 +6,9 @@ import Fashionproducts from './Fashionproducts'
 import axios from 'axios'
 
 
-export const dynamic = 'force-dynamic';
-
 export default async function Fashiongrid() {
-    const product = await axios.get("http://localhost:8000/product?category_slug=fashion")
-    const Fashionprod = product.data.allProduct
+    const product = await getProduct({ category_slug: "fashion" })
+    const Fashionprod = product?.allProduct || []
 
     return (
         <section className="max-w-7xl mx-auto py-10">
