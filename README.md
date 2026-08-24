@@ -51,16 +51,11 @@
 
 ### Screenshots & Demo
 
-- **Homepage Demo**: [Link to Loom/YouTube](#)
-- **Product Browsing**: [Link to Loom/YouTube](#)
-- **Admin Dashboard**: [Link to Loom/YouTube](#)
-- **Checkout Flow**: [Link to Loom/YouTube](#)
-
-### GIFs & Video Demonstrations
-
-- **User Registration & OTP Verification**: [Demo Video](#)
-- **Admin Product Management**: [Demo Video](#)
-- **Payment Processing**: [Demo Video](#)
+- **Homepage Demo**: https://youtu.be/dIC163vMmd8
+- **Product Browsing**: https://youtu.be/fSNAsZ2rcHo
+- **Admin Dashboard**: https://youtu.be/3DrEVfgJI6o
+- **Checkout Flow**: https://youtu.be/l-o2hn0XXic
+- **Payment Processing**: https://youtu.be/8J0wj8DKer4
 
 ---
 
