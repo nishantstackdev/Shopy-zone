@@ -1129,13 +1129,6 @@ Contributions are welcome! Please follow the development best practices and subm
 
 This project is licensed under the MIT License. See LICENSE file for details.
 
-## 📞 Support & Contact
-
-For issues, questions, or suggestions:
-
-- Open an Issue on GitHub
-- Contact: support@shopyzone.com
-- Documentation: [Add Docs Link]
 
 ---
 
